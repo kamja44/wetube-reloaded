@@ -6,14 +6,19 @@ const PORT = 4000;
 
 const app = express();
 
-const handleHome = (req, res) => {
-  return res.send("I still love you");
+const gossipMiddleware = (req, res, next) => {
+  console.log(`Someone is going to ${req.url}`);
+  next();
+};
+
+const handleHome = (req, res, next) => {
+  return res.send("I love middleware");
 };
 const handleLogin = (req, res) => {
   return res.send("Login Here");
 };
 
-app.get("/", handleHome);
+app.get("/", gossipMiddleware, handleHome);
 app.get("/login", handleLogin);
 
 const handleListening = () =>
