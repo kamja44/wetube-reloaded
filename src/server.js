@@ -1,37 +1,27 @@
 // express import
 // const express = require("express"); === import express from "express"
 import express from "express";
+import morgan from "morgan";
 
 const PORT = 4000;
 
 const app = express();
 
-const logger = (req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-};
-const privateMiddleware = (req, res, next) => {
-  const url = req.url;
-  if (url === "/protected") {
-    return res.send("<h1>Not Allowed</h1>");
-  }
-  console.log("Allowed, you may continue");
-  next();
-};
+const logger = morgan("dev");
 
-const handleHome = (req, res, next) => {
+const handleHome = (req, res) => {
+    console.log("console answering")
   return res.send("I love middleware");
 };
-const handleProtected = (req, res) => {
-  return res.send("Welcome to the private lounge.");
-};
+const handlelogin = (req, res) =>{
+    return res.send("login");
+}
 
 // app.use -> global router -> 어떠한 url에서도 동작하는 middleWare
 // global router가 먼저 오고 그 후 router가 온다.
 app.use(logger);
-app.use(privateMiddleware);
-app.get("/", handleHome);
-app.get("/protected", handleProtected);
+app.get("/",handleHome);
+app.get("/login", handlelogin);
 
 const handleListening = () =>
   console.log(`Server listening on port http://localhost:${PORT}`);
