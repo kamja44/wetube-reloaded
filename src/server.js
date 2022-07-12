@@ -6,22 +6,24 @@ import morgan from "morgan";
 const PORT = 4000;
 
 const app = express();
-
 const logger = morgan("dev");
-
-const handleHome = (req, res) => {
-    console.log("console answering")
-  return res.send("I love middleware");
-};
-const handlelogin = (req, res) =>{
-    return res.send("login");
-}
-
-// app.use -> global router -> 어떠한 url에서도 동작하는 middleWare
-// global router가 먼저 오고 그 후 router가 온다.
 app.use(logger);
-app.get("/",handleHome);
-app.get("/login", handlelogin);
+
+const globalRouter  = express.Router();
+const handleHome = (req, res) => res.send("Home");
+globalRouter.get("/", handleHome);
+
+const userRouter = express.Router();
+const handleEditUser = (req, res) => res.send("Edit User");
+userRouter.get("/edit", handleEditUser);
+
+const videoRouter = express.Router();
+const handleWatchVideo = (req, res) => res.send("Watch Video");
+videoRouter.get("/watch", handleWatchVideo);
+
+app.use("/", globalRouter);
+app.use("/users", userRouter);
+app.use("/videos", videoRouter);
 
 const handleListening = () =>
   console.log(`Server listening on port http://localhost:${PORT}`);
