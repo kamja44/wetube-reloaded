@@ -1,5 +1,15 @@
-dependencies -> 프로젝트 실행을 위해 필요한 dependencies 즉, 프로젝트에 필요한 dependencies
+# Wetube Reloaded
 
-devDependencies -> 개발자에게 필요한 dependencies
+/ -> Home
+/join -> Join
+/login -> Login
+/search -> Search
 
-app.listen(포트번호, callback)
+/users/edit -> Edit user
+/users/delete -> Delete user
+
+/videos/watch -> Watch Video
+/videos/edit -> Edit Video
+/videos/delete -> Delete Video
+/videos/comments -> Comment on a video
+/videos/comments/delete -> Delete A Comment of a Video
