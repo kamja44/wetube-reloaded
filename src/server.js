@@ -1,16 +1,11 @@
 // express import
 // const express = require("express"); === import express from "express"
-import "./db";
-import  "./models/Video";
-// import "./경로" <- 모든 파일에서 사용할 수 있게 import한다. 즉, 모든 파일에 import 한다.
 import express from "express";
 import morgan from "morgan";
 import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
-
-const PORT = 4000;
 
 // console.log(process.cwd()); // precess.cwd() -> 현재 작업중인 디렉토리 확인
 // cwd == node.js가 실행되는 위치 == package.json 위치
@@ -26,8 +21,4 @@ app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
 
-const handleListening = () =>
-  console.log(`✅   Server listening on port http://localhost:${PORT}`);
-
-app.listen(PORT, handleListening);
-// app.listen(포트번호, callback)
+export default app;
