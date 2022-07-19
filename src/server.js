@@ -1,6 +1,8 @@
 // express import
 // const express = require("express"); === import express from "express"
 import "./db";
+import  "./models/Video";
+// import "./경로" <- 모든 파일에서 사용할 수 있게 import한다. 즉, 모든 파일에 import 한다.
 import express from "express";
 import morgan from "morgan";
 import globalRouter from "./routers/globalRouter";
