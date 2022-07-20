@@ -5,6 +5,7 @@ import Video from "../models/Video";
 export const home = async(req, res) => {
     // {} <- search terms 비어있으면 모든 형식을 찾는다. 즉, 모든 형태의 Video를 찾는다
     const videos = await Video.find({});
+    console.log(videos);
     return res.render("home", {pageTitle : "Home", videos}); 
 }
 export const watch = (req, res) => {
@@ -25,19 +26,30 @@ export const postEdit = (req, res) => {
 export const getUpload = (req, res) => {
     return res.render("upload", {pageTitle : "Upload Video"});
 };
-export const postUpload = (req, res) => {
+export const postUpload = async (req, res) => {
     const {title, description, hashtags} = req.body;
     console.log(title, description ,hashtags);
-    const video = new Video({
-        title, // title == title : title
-        description, // description == description : description
-        hashtags : hashtags.split(",").map((word) => `#${word}`),
+    // const video = new Video({
+    //     title, // title == title : title
+    //     description, // description == description : description
+    //     hashtags : hashtags.split(",").map((word) => `#${word}`),
+    //     createdAt : Date.now(),
+    //     meta : {
+    //         views : 0,
+    //         rating : 0,
+    //     }
+    // });
+    // const dbVideo = await video.save();
+    await Video.create({ // 위의 주석 코드와 동일한 기능
+        title,
+        description,
         createdAt : Date.now(),
+        hashtags : hashtags.split(",").map((word) => `#${word}`),
         meta : {
             views : 0,
             rating : 0,
-        }
+        },
     });
-    console.log(video);
+    
     return res.redirect("/");
 };
