@@ -1,6 +1,9 @@
 extends base.pug
 
 block content 
-    form(method = "POST", action = "/videos/upload")
+    //- action = "/videos/upload" <- action이 정해준 경로로 데이터를 보낸다, action이 없을경우 해당 페이지(지금 경로)로 데이터를 보낸다.
+    form(method = "POST")
         input(placeholder="Title", required, type="text" name = "title")
+        input(placeholder="Description", required, type="text" name = "description")
+        input(placeholder="Hashtags, separated by comma.", required, type="text" name = "hashtags")
         input(type="submit" value="Upload Video")
