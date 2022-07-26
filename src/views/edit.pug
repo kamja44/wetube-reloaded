@@ -1,7 +1,7 @@
 extends base.pug
 
 block content 
-    h4 Chagne Title of No.#{video.id} Video
+    h4 Update Video
     form(method = "POST")
         input(name="title", placeholder = "Video Title", value = video.title, required)
         input(name="description", placeholder = "Description", type="text",  minlength = 20, required, value = video.description)
