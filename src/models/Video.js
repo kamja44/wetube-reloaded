@@ -11,11 +11,10 @@ const videoSchema = new mongoose.Schema({
   },
 });
 
-videoSchema.pre("save", async function () {
-  this.hashtags = this.hashtags[0]
-    .split(",")
-    .map((word) => (word.startsWith("#") ? word : `#${word}`));
-});
+videoSchema.static("formatHashtags", function(hashtags){
+  return hashtags.split(",").map((word) => (word.startsWith("#") ? word : `#${word}`));
+})
+
 
 // middleware는 model이 생성되기 전에 만들어야한다.
 const Video = mongoose.model("Video", videoSchema);
