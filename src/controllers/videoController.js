@@ -4,7 +4,7 @@ import Video from "../models/Video";
 
 export const home = async (req, res) => {
   // {} <- search terms 비어있으면 모든 형식을 찾는다. 즉, 모든 형태의 Video를 찾는다
-  const videos = await Video.find({});
+  const videos = await Video.find({}).sort({createdAt : "desc"});
   return res.render("home", { pageTitle: "Home", videos });
 };
 
@@ -75,4 +75,13 @@ export const deleteVideo = async(req, res) => {
   await Video.findByIdAndDelete(id);
   // delete video
   return res.redirect("/");
+}
+
+
+export const search = (req, res) => {
+  const {keyword} = req.query;
+  if(keyword){
+    // search
+  } 
+  return res.render("search", {pageTitle : "Search"});
 }
