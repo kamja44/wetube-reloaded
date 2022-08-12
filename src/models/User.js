@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     saltRounds <- 해시함수를 얼마나 적용시킬것인가 즉, 몇 번 해싱할것인지 설정
     function(err, hash){} <- 출력값(결과값)
     */
-   // 
+   // schema.pre("save",function()) <- 스키마가 저장되기 전 작업
 userSchema.pre("save", async function(){
     // this <- create되는 User
     console.log("User password : ", this.password);
