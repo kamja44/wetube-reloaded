@@ -4,7 +4,7 @@ import Video from "../models/Video";
 
 export const home = async (req, res) => {
   // {} <- search terms 비어있으면 모든 형식을 찾는다. 즉, 모든 형태의 Video를 찾는다
-  const videos = await Video.find({}).sort({createdAt : "desc"});
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
   return res.render("home", { pageTitle: "Home", videos });
 };
 
@@ -13,7 +13,7 @@ export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (video === null) {
-    return res.render("404", { pageTitle: "Video not Found." });
+    return res.status(404).render("404", { pageTitle: "Video not Found." });
   }
   return res.render("watch", { pageTitle: video.title, video });
 };
@@ -22,7 +22,7 @@ export const getEdit = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (video === null) {
-    return res.render("404", { pageTitle: "Video not Found." });
+    return res.status(404).render("404", { pageTitle: "Video not Found." });
   }
   return res.render("edit", { pageTitle: `Edit : ${video.title} `, video });
 };
@@ -33,12 +33,12 @@ export const postEdit = async (req, res) => {
   console.log(req.body);
   const video = await Video.exists({ _id: id });
   if (video === null) {
-    return res.render("404", { pageTitle: "Video not Found." });
+    return res.status(404).render("404", { pageTitle: "Video not Found." });
   }
   await Video.findByIdAndUpdate(id, {
     title,
     description,
-    hashtags : Video.formatHashtags(hashtags),
+    hashtags: Video.formatHashtags(hashtags),
   });
   // 아래의 주석은 Video.findByIdAndUpdate와 같은 기능을 한다.
   // video.title = title;
@@ -59,36 +59,35 @@ export const postUpload = async (req, res) => {
       title,
       description,
       createdAt: Date.now(),
-      hashtags : Video.formatHashtags(hashtags),
+      hashtags: Video.formatHashtags(hashtags),
     });
     return res.redirect("/");
   } catch (error) {
-    return res.render("upload", {
+    return res.status(400).render("upload", {
       pageTitle: "Upload Video",
       errorMessage: error._message,
     });
   }
 };
 
-export const deleteVideo = async(req, res) => {
-  const {id} = req.params;
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params;
   await Video.findByIdAndDelete(id);
   // delete video
   return res.redirect("/");
-}
-
+};
 
 export const search = async (req, res) => {
-  const {keyword} = req.query;
+  const { keyword } = req.query;
   let videos = [];
-  if(keyword){
+  if (keyword) {
     videos = await Video.find({
-      title : {
+      title: {
         //regex -> regular Expression
-        $regex : new RegExp(`${keyword}$`, "i"),
-      }
+        $regex: new RegExp(`${keyword}$`, "i"),
+      },
     });
-    console.log("I'm looking for",videos);
-  } 
-  return res.render("search", {pageTitle : "Search", videos});
-}
+    console.log("I'm looking for", videos);
+  }
+  return res.render("search", { pageTitle: "Search", videos });
+};
