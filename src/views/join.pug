@@ -2,10 +2,13 @@ extends base
 
 
 block content 
+    if errorMessage 
+        span=errorMessage
     form(method = "POST")
         input(placeholder = "Enter your name", name = "name", type = "text", required)
         input(placeholder = "Enter your email", name = "email", type = "email", required)
         input(placeholder = "Enter your username", name = "username", type = "text", required)
         input(placeholder = "Enter your password", name = "password", type = "password", required)
+        input(placeholder = "Enter your confirm password", name = "password2", type = "password", required)
         input(placeholder = "Enter your location", name = "location", type = "text", required)
         input(type="submit", value="Join")
