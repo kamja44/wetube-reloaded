@@ -17,15 +17,23 @@ const app = express();
 const logger = morgan("dev");
 
 app.set("view engine", "pug"); // view engine을 pug로 설정하여 express에 명시한다.
-app.set("views", process.cwd() + "/src/views");
+app.set("views" , process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true })); // express가 form의 값을 읽을 수 있게 설정
 // session은 Router 위에 정의해야한다.
+console.log(process.env.COOKIE_SECRET);
 app.use(session({
-    secret : "Hello",
+    // .env 파일 에 접근하기 <- process.env.변수명
+    secret : process.env.COOKIE_SECRET, //sign cookie <- 우리의 backend가 cookie를 전달했음을 증명하는 sign
     resave : false,
     saveUninitialized : false, // session이 수정된 적이 없는상태 즉, 세션을 수정할 때만 세션을 DB에 저장하고 쿠키를 넘겨준다.
-    store : MongoStore.create({mongoUrl : "mongodb://127.0.0.1:27017/wetube"}),
+    // cookie : {
+    //     // 1/1000초 단위
+    //     // 쿠키가 살아있는 시간을 정의 20000 <- 20초
+    //     maxAge : 20000,
+    // },
+    // .env 파일 에 접근하기 <- process.env.변수명
+    store : MongoStore.create({mongoUrl : process.env.DB_URL}),
 })
 );
 
