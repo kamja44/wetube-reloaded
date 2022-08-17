@@ -8,8 +8,6 @@ import globalRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import { localsMiddleware } from "./middlewares";
-
-
 // console.log(process.cwd()); // precess.cwd() -> 현재 작업중인 디렉토리 확인
 // cwd == node.js가 실행되는 위치 == package.json 위치
 
@@ -21,7 +19,7 @@ app.set("views" , process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true })); // express가 form의 값을 읽을 수 있게 설정
 // session은 Router 위에 정의해야한다.
-console.log(process.env.COOKIE_SECRET);
+
 app.use(session({
     // .env 파일 에 접근하기 <- process.env.변수명
     secret : process.env.COOKIE_SECRET, //sign cookie <- 우리의 backend가 cookie를 전달했음을 증명하는 sign
