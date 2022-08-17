@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: true })); // express가 form의 값을 �
 // session은 Router 위에 정의해야한다.
 app.use(session({
     secret : "Hello",
-    resave : true,
-    saveUninitialized : true,
+    resave : false,
+    saveUninitialized : false, // session이 수정된 적이 없는상태 즉, 세션을 수정할 때만 세션을 DB에 저장하고 쿠키를 넘겨준다.
     store : MongoStore.create({mongoUrl : "mongodb://127.0.0.1:27017/wetube"}),
 })
 );
