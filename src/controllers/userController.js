@@ -142,7 +142,7 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(userData);
+    // console.log(userData);
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -199,9 +199,9 @@ export const postEdit = async (req, res) => {
     }
   }=req;
   // const user_id = req.session.user.id  === const{session:{user:{id}}} = req
-  console.log("session", req.session);
-  console.log("body",req.body);
-  
+  // console.log("session", req.session);
+  // console.log("body",req.body);
+  // username, email 중복 제거
   const usernameExists = await User.exists({username});
   const emailExists = await User.exists({email});
   if(req.session.user.username !== username){
@@ -229,4 +229,15 @@ export const postEdit = async (req, res) => {
   req.session.user = updateUser; // session Update
   return res.redirect("/users/edit");
 };
+export const getChangePassword = (req, res) => {
+  if(req.session.user.socialOnly === true){
+    return res.redirect("/");
+  }
+  return res.render("users/change-password", {pageTitle:"Change Password "});
+}
+export const postChangePassword = (req, res) => {
+  // send notification
+  return res.redirect("/");
+}
+
 export const see = (req, res) => res.send("See");

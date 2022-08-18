@@ -6,6 +6,8 @@ import {
   see,
   startGithubLogin,
   finishGithubLogin,
+  getChangePassword,
+  postChangePassword,
 } from "../controllers/userController";
 import {
   protectorMiddleware,
@@ -15,6 +17,7 @@ const userRouter = express.Router();
 
 userRouter.get("/logout", protectorMiddleware ,logout);
 userRouter.route("/edit").all(protectorMiddleware).get(getEdit).post(postEdit);
+userRouter.route("/change-password").all(protectorMiddleware).get(getChangePassword).post(postChangePassword);
 // all() <- 모든 http method에 적용할 때 사용한다.
 userRouter.get("/github/start", publicOnlyMiddleware ,startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware ,finishGithubLogin);
