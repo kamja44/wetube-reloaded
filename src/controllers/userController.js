@@ -199,19 +199,34 @@ export const postEdit = async (req, res) => {
     }
   }=req;
   // const user_id = req.session.user.id  === const{session:{user:{id}}} = req
-  // email or username이 이미 사용중일 때
-  const exists = await User.exists({$or: [{username}, {email}]});
-  if(!exists){
-    const updateUser = await User.findByIdAndUpdate(_id,{
-      name,
-      email,
-      username,
-      location,
-    }, {new : true}); // {new : true}를 추가함으로써 가장 최근의 User정보를 가져온다.
-    req.session.user = updateUser; // session Update
-    return res.redirect("/users/edit");  
-  }
+  console.log("session", req.session);
+  console.log("body",req.body);
   
+  const usernameExists = await User.exists({username});
+  const emailExists = await User.exists({email});
+  if(req.session.user.username !== username){
+    if(usernameExists){
+      return res.status(400).render("edit-profile",{
+        pageTitle : "Edit-Profile",
+        errorMessage : "This username is already Taken",
+      });
+    }
+  }else if(req.session.user.email !== email){
+    if(emailExists){
+      return res.status(400).render("edit-profile",{
+        pageTitle : "Edit-Profile",
+        errorMessage : "This email is already Taken",
+      });
+    }
+  }
+
+  const updateUser = await User.findByIdAndUpdate(_id,{
+    name,
+    email,
+    username,
+    location,
+  }, {new : true}); // {new : true}를 추가함으로써 가장 최근의 User정보를 가져온다.
+  req.session.user = updateUser; // session Update
+  return res.redirect("/users/edit");
 };
 export const see = (req, res) => res.send("See");
-
