@@ -1,0 +1,10 @@
+extends base.pug
+
+block content 
+    //- formdml action에 값을 입력하지 않으면 현재의 url(즉, /users/edit)에 post request를 보낸다.
+    form(method="POST")
+        input(placeholder="Name", name="name", type="text", required, value=loggedInUser.name)
+        input(placeholder="Email", name="email", type="email", required, value=loggedInUser.email)
+        input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)
+        input(placeholder="Location", name="location", type="text", required, value=loggedInUser.location)
+        input(type="submit", value="Update Profile")
