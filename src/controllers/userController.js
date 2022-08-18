@@ -199,12 +199,19 @@ export const postEdit = async (req, res) => {
     }
   }=req;
   // const user_id = req.session.user.id  === const{session:{user:{id}}} = req
-  await User.findByIdAndUpdate(_id,{
-    name,
-    email,
-    username,
-    location,
-  });
-  return res.render("edit-profile");
+  // email or username이 이미 사용중일 때
+  const exists = await User.exists({$or: [{username}, {email}]});
+  if(!exists){
+    const updateUser = await User.findByIdAndUpdate(_id,{
+      name,
+      email,
+      username,
+      location,
+    }, {new : true}); // {new : true}를 추가함으로써 가장 최근의 User정보를 가져온다.
+    req.session.user = updateUser; // session Update
+    return res.redirect("/users/edit");  
+  }
+  
 };
 export const see = (req, res) => res.send("See");
+
