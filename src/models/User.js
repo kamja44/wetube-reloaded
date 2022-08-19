@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema({
 // schema.pre("save",function()) <- 스키마가 저장되기 전 작업
 userSchema.pre("save", async function () {
   // this <- create되는 User
-  console.log("User password : ", this.password);
+  // console.log("User password : ", this.password);
   this.password = await bcrypt.hash(this.password, 7);
-  console.log("Hashed password", this.password);
+  // console.log("Hashed password", this.password);
 });
 
 const User = mongoose.model("user", userSchema);
