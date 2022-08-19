@@ -4,7 +4,11 @@ block content
     //- formdml action에 값을 입력하지 않으면 현재의 url(즉, /users/edit)에 post request를 보낸다.
     if errorMessage
         span=errorMessage
-    form(method="POST")
+    form(method="POST", enctype="multipart/form-data") 
+        //- form(enctype="multipart/form-data") <- multer 라이브러리 사용을 위해 설정 enctype <- form이 encode된다.
+        label(for="avatar") Avatar
+        input(type="file", id="avatar", name="avatar", accept="image/*")
+        //- accept="image/*" <- 이미지 파일인 것만 선택 가능 즉, pdf 등 선택 불가
         input(placeholder="Name", name="name", type="text", required, value=loggedInUser.name)
         input(placeholder="Email", name="email", type="email", required, value=loggedInUser.email)
         input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)

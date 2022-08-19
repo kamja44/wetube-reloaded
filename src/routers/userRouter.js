@@ -11,12 +11,16 @@ import {
 } from "../controllers/userController";
 import {
   protectorMiddleware,
-  publicOnlyMiddleware
+  publicOnlyMiddleware,
+  uploadFiles,
 } from "../middlewares";
 const userRouter = express.Router();
 
 userRouter.get("/logout", protectorMiddleware ,logout);
-userRouter.route("/edit").all(protectorMiddleware).get(getEdit).post(postEdit);
+userRouter.route("/edit")
+  .all(protectorMiddleware)
+  .get(getEdit)
+  .post(uploadFiles.single("avatar"), postEdit);
 userRouter.route("/change-password").all(protectorMiddleware).get(getChangePassword).post(postChangePassword);
 // all() <- 모든 http method에 적용할 때 사용한다.
 userRouter.get("/github/start", publicOnlyMiddleware ,startGithubLogin);

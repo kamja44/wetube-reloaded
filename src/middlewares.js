@@ -1,3 +1,4 @@
+import multer from "multer";
 export const localsMiddleware = (req, res, next) => {
     res.locals.loggedIn = Boolean(req.session.loggedIn); // 로그인 되었을 때 동작
     res.locals.siteName = "Wetube";
@@ -20,3 +21,5 @@ export const publicOnlyMiddleware = (req, res, next) => {
         return res.redirect("/");
     }
 }
+// multer() middleware
+export const uploadFiles = multer({dest:"uploads/"});
