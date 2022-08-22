@@ -11,14 +11,15 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   // const id = req.params.id; 코드와 const {id} = req.params; 코드는 동일하다.
   const { id } = req.params;
-  const video = await Video.findById(id);
-  const owner = await User.findById(video.owner);
-  // console.log(owner);
   // console.log(video);
+  const video = await Video.findById(id).populate("owner");
+  // populate() <- (변수) 변수에 실제 데이터를 할당한다.
+  // console.log(video);
+  // console.log(owner);
   if (video === null) {
     return res.status(404).render("404", { pageTitle: "Video not Found." });
   }
-  return res.render("watch", { pageTitle: video.title, video, owner});
+  return res.render("watch", { pageTitle: video.title, video});
 };
 
 export const getEdit = async (req, res) => {
