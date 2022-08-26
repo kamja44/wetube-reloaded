@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   // name: { type: String},
   location: String,
-  videos:[{type:mongoose.Schema.Types.ObjectId, ref : "Video"},]
+  videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 });
 /*
     bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash){})
@@ -21,7 +21,9 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function () {
   // this <- create되는 User
   // console.log("User password : ", this.password);
-  this.password = await bcrypt.hash(this.password, 7);
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 7);
+  }
   // console.log("Hashed password", this.password);
 });
 
