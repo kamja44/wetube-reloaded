@@ -1,3 +1,4 @@
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 // console.log(path.resolve(__dirname, "assets", "js"));
@@ -7,11 +8,14 @@ const path = require("path");
 module.exports={
     // entry <- 처리하고 싶은 파일 (main.js)
     entry : "./src/client/js/main.js",
+    plugins: [new MiniCssExtractPlugin({
+        filename : "css/styles.css",
+    })],
     mode : "development",
     output : {
-        filename : "main.js",
+        filename : "js/main.js",
         // path <- 파일을 어디 저장할지
-        path : path.resolve(__dirname, "assets","js"),
+        path : path.resolve(__dirname, "assets"),
     },
     module:{
         rules:[
@@ -26,7 +30,7 @@ module.exports={
             },
             {
                 test: /\.scss$/,
-                use: ["style-loader", "css-loader", "sass-loader"],
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
                 // 역순으로 사용 
                 // 즉, webpack은 제일 먼저 우리 코드를 가져다가 일반적인 css로 변경하고(sass-loader)
                 // 변경한 코드를 css-loader한테 전달하고(css-loader)
