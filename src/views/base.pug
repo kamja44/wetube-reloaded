@@ -2,36 +2,13 @@ doctype html
 html(lang="ko")
     head 
         title #{pageTitle} | #{siteName}
-        link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
         link(rel="stylesheet", href="/static/css/styles.css")
     body
-        header 
-            h1=pageTitle 
-            nav
-                ul 
-                    li 
-                        a(href="/") Home
-                    if loggedIn
-                        li
-                            a(href="/users/edit") Edit Profile
-                        li
-                            a(href="/users/logout") Log Out
-                        //- li
-                        //-     a(href="/my-profile") #{loggedInUser.name} 의 Profile
-                        li 
-                            a(href="/videos/upload") Upload Video
-                        li
-                            a(href=`/users/${loggedInUser._id}`) My Profile
-                    else
-                        li 
-                            a(href="/join") Join
-                        li 
-                            a(href="/login") Login
-                    li 
-                        a(href="/search") Search
+        include partials/header
         main
             block content
-        include ./partials/footer
+        include partials/footer
         script(src="/static/js/main.js")
         //- src가 /static으로 시작하는 이유 <- server.js의 app.use에서 URL을 /static으로 설정했기 때문
         //- 즉, assets 폴더에 접근하려면 URL을 /static으로 설정해야 한다.
