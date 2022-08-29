@@ -12,10 +12,12 @@ module.exports={
         filename : "css/styles.css",
     })],
     mode : "development",
+    watch : true,
     output : {
         filename : "js/main.js",
         // path <- 파일을 어디 저장할지
         path : path.resolve(__dirname, "assets"),
+        clean : true,
     },
     module:{
         rules:[
