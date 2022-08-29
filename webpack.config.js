@@ -24,6 +24,14 @@ module.exports={
                     },
                 },
             },
+            {
+                test: /\.scss$/,
+                use: ["style-loader", "css-loader", "sass-loader"],
+                // 역순으로 사용 
+                // 즉, webpack은 제일 먼저 우리 코드를 가져다가 일반적인 css로 변경하고(sass-loader)
+                // 변경한 코드를 css-loader한테 전달하고(css-loader)
+                // styles가 css를 브라우저에 보이게 한다.(styles-loader)
+            }
         ],
     },
 };
