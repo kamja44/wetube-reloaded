@@ -53,6 +53,7 @@ export const getLogin = (req, res) =>
 
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
+  console.log(req.body);
   const pageTitle = "Login";
   const user = await User.findOne({ username, socialOnly: false });
   if (!user) {
@@ -273,7 +274,15 @@ export const postChangePassword = async(req, res) => {
 
 export const see = async(req, res) => {
   const {id} = req.params;
-  const user = await User.findById(id).populate("videos");
+  // const user = await User.findById(id).populate("videos");
+  // Double populate
+  const user = await User.findById(id).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+      model: "User",
+    },
+  })
   // console.log(user);
   if(!user){
     return res.status(404).render("404", {pageTitle : "Not Found"});
