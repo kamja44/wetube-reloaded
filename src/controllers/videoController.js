@@ -4,7 +4,7 @@ import User from "../models/User";
 
 export const home = async (req, res) => {
   // {} <- search terms 비어있으면 모든 형식을 찾는다. 즉, 모든 형태의 Video를 찾는다
-  const videos = await Video.find({}).sort({ createdAt: "desc" });
+  const videos = await Video.find({}).sort({ createdAt: "desc" }).populate("owner");
   return res.render("home", { pageTitle: "Home", videos });
 };
 
