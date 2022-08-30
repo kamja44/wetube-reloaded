@@ -136,8 +136,8 @@ export const search = async (req, res) => {
         //regex -> regular Expression
         $regex: new RegExp(`${keyword}$`, "i"),
       },
-    });
-    console.log("I'm looking for", videos);
+    }).populate("owner");
+    // console.log("I'm looking for", videos);
   }
   return res.render("search", { pageTitle: "Search", videos });
 };

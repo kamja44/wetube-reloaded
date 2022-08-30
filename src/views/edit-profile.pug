@@ -2,10 +2,7 @@ extends base.pug
 
 block content 
     //- formdml action에 값을 입력하지 않으면 현재의 url(즉, /users/edit)에 post request를 보낸다.
-    img(src="/"+loggedInUser.avatarUrl, width="100", height="100")
-    if errorMessage
-        span=errorMessage
-    form(method="POST", enctype="multipart/form-data") 
+    form(method="POST", enctype="multipart/form-data").edit-profile__form
         //- form(enctype="multipart/form-data") <- multer 라이브러리 사용을 위해 설정 enctype <- form이 encode된다.
         label(for="avatar") Avatar
         input(type="file", id="avatar", name="avatar", accept="image/*")
@@ -16,5 +13,5 @@ block content
         input(placeholder="Location", name="location", type="text", required, value=loggedInUser.location)
         input(type="submit", value="Update Profile")
         if !loggedInUser.socialOnly
-            hr
-            a(href="change-password") Change Password &rarr;
+            div.edit-profile__password
+                a(href="change-password") Change Password &rarr;
