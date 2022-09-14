@@ -4,6 +4,7 @@ const muteBtn = document.getElementById("mute");
 const volumeRange = document.getElementById("volume");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
+const timeLine = document.getElementById("timeline");
 
 let volumeValue = 0.5;
 video.volume = Number(volumeValue);
@@ -54,10 +55,17 @@ const handleVolumeChange = (event) => {
 const formatTime = (seconds) => new Date(seconds * 1000).toISOString().substring(11, 19);
 const handleLoadedMetadata = () => {
     totalTime.innerText = formatTime(Math.floor(video.duration));
+    timeLine.max = Math.floor(video.duration);
 }
-const handleTimeUpdate = () =>{
+const handleTimeUpdate = () => {
     currentTime.innerText = formatTime(Math.floor(video.currentTime));
-    // console.log(video.currentTime);
+    timeLine.value = Math.floor(video.currentTime);
+}
+const handleTimelineChange = (event) => {
+    const {
+        target: {value},
+    } = event;
+    video.currentTime = value;
 }
 // EventListener
 playBtn.addEventListener("click", handlePlayClick);
@@ -65,3 +73,4 @@ muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange); // input 태그의 value가 바뀔 때(즉, 실시간 반영)
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+timeLine.addEventListener("input", handleTimelineChange);
