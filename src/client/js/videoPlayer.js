@@ -6,8 +6,10 @@ const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const timeLine = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreen");
-const videoContainerBtn = document.getElementById("videoContainer")
+const videoContainerBtn = document.getElementById("videoContainer");
+const videoControls = document.getElementById("videoControls");
 
+let controlsTimeout = null;
 let volumeValue = 0.5;
 video.volume = Number(volumeValue);
 
@@ -21,7 +23,7 @@ const handlePlayClick = (e) => {
         video.pause();
     }
     playBtn.innerText =  video.paused ? "Play" : "Pause";
-}
+};
 const handleMute = (event) => { 
     if(video.muted){
         video.muted = false;
@@ -31,7 +33,7 @@ const handleMute = (event) => {
     // console.log(vieo.muted);
     muteBtn.innerText = video.muted ? "Unmute" : "Mute";
     volumeRange.value = video.muted ? 0 : volumeValue;
-}
+};
 const handlePause = () => (playBtn.innerText = "Play");
 const handlePlay = () => (playBtn.innerText = "Pause");
 const handleVolumeChange = (event) => {
@@ -53,22 +55,22 @@ const handleVolumeChange = (event) => {
         video.muted = false;
         muteBtn.innerText = "Mute";
     }
-}
+};
 const formatTime = (seconds) => new Date(seconds * 1000).toISOString().substring(11, 19);
 const handleLoadedMetadata = () => {
     totalTime.innerText = formatTime(Math.floor(video.duration));
     timeLine.max = Math.floor(video.duration);
-}
+};
 const handleTimeUpdate = () => {
     currentTime.innerText = formatTime(Math.floor(video.currentTime));
     timeLine.value = Math.floor(video.currentTime);
-}
+};
 const handleTimelineChange = (event) => {
     const {
         target: {value},
     } = event;
     video.currentTime = value;
-}
+};
 const handleFullScreen = () => {
     const fullScreen = document.fullscreenElement;
     if(fullScreen){
@@ -81,7 +83,19 @@ const handleFullScreen = () => {
         videoContainerBtn.requestFullscreen();
         fullScreenBtn.innerText = "Exit Full Screen";
     }
-}
+};
+const handleMouseMove = () => {
+    if(controlsTimeout){
+        clearTimeout(controlsTimeout); // setTimeout 함수의 동작을 취소한다.
+        controlsTimeout = null;
+    }
+    videoControls.classList.add("showing");
+};
+const handleMouseLeave = () => {
+    controlsTimeout = setTimeout(() => {
+        videoControls.classList.remove("showing");
+    }, 3000);
+};
 // EventListener
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
@@ -90,3 +104,5 @@ video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 timeLine.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
+video.addEventListener("mousemove", handleMouseMove);
+video.addEventListener("mouseleave", handleMouseLeave);
