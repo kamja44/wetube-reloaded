@@ -5,6 +5,8 @@ const volumeRange = document.getElementById("volume");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const timeLine = document.getElementById("timeline");
+const fullScreenBtn = document.getElementById("fullScreen");
+const videoContainerBtn = document.getElementById("videoContainer")
 
 let volumeValue = 0.5;
 video.volume = Number(volumeValue);
@@ -67,6 +69,19 @@ const handleTimelineChange = (event) => {
     } = event;
     video.currentTime = value;
 }
+const handleFullScreen = () => {
+    const fullScreen = document.fullscreenElement;
+    if(fullScreen){
+        document.exitFullscreen();
+        fullScreenBtn.innerText = "Enter Full Screen";
+    }else{
+        // video FullScreen
+        // video.requestFullscreen();
+        // 버튼들까지 FullScreen에 포함
+        videoContainerBtn.requestFullscreen();
+        fullScreenBtn.innerText = "Exit Full Screen";
+    }
+}
 // EventListener
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
@@ -74,3 +89,4 @@ volumeRange.addEventListener("input", handleVolumeChange); // input 태그의 va
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 timeLine.addEventListener("input", handleTimelineChange);
+fullScreenBtn.addEventListener("click", handleFullScreen);
