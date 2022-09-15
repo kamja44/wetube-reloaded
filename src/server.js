@@ -8,6 +8,7 @@ import globalRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import { localsMiddleware } from "./middlewares";
+import apiRouter from "./routers/apiRouter";
 // console.log(process.cwd()); // precess.cwd() -> 현재 작업중인 디렉토리 확인
 // cwd == node.js가 실행되는 위치 == package.json 위치
 
@@ -41,5 +42,6 @@ app.use("/static", express.static("assets"));
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
+app.use("/api", apiRouter);
 
 export default app;
