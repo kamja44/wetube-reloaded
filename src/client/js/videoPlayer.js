@@ -114,13 +114,21 @@ const handleSpaceDown = (event) => {
         }
         playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
     }
-}
+};
+const handleEnded = () => {
+    // fetch()를 이용하여 api에 요청 보내기
+    const {id} = videoContainer.dataset;
+    fetch(`/api/videos/${id}/views`,{
+        method:"POST",
+    }); 
+};
 // EventListener
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange); // input 태그의 value가 바뀔 때(즉, 실시간 반영)
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("ended", handleEnded);
 videoContainerBtn.addEventListener("mousemove", handleMouseMove);
 videoContainerBtn.addEventListener("mouseleave", handleMouseLeave);
 timeLine.addEventListener("input", handleTimelineChange);

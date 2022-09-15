@@ -1,7 +1,9 @@
 extends base.pug
 
 block content
-    div#videoContainer
+    //- (data-videoId=video._id) <- HTML에 dataset을 저장하는 방법 data-videoId <- dataset이름, video._id <- 저장할 값
+    //- js에서 videoContainer.dataset으로 사용가능
+    div#videoContainer(data-videoId=video._id)
         //- video(src="/" + video.fileUrl, controls) video player의 기본 controller 삭제
         video(src="/" + video.fileUrl)
         div#videoControls.videoControls
