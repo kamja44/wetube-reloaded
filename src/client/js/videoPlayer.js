@@ -9,7 +9,7 @@ const totalTime = document.getElementById("totalTime");
 const timeLine = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreen");
 const fullScreenIcon = fullScreenBtn.querySelector("i");
-const videoContainerBtn = document.getElementById("videoContainer");
+const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 
 let controlsTimeout = null;
@@ -83,7 +83,7 @@ const handleFullScreen = () => {
         // video FullScreen
         // video.requestFullscreen();
         // 버튼들까지 FullScreen에 포함
-        videoContainerBtn.requestFullscreen();
+        videoContainer.requestFullscreen();
         fullScreenIcon.classList = "fas fa-compress";
     }
 };
@@ -117,8 +117,8 @@ const handleSpaceDown = (event) => {
 };
 const handleEnded = () => {
     // fetch()를 이용하여 api에 요청 보내기
-    const {id} = videoContainer.dataset;
-    fetch(`/api/videos/${id}/views`,{
+    const {videoid} = videoContainer.dataset;
+    fetch(`/api/videos/${videoid}/view`,{
         method:"POST",
     }); 
 };
@@ -129,8 +129,8 @@ volumeRange.addEventListener("input", handleVolumeChange); // input 태그의 va
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("ended", handleEnded);
-videoContainerBtn.addEventListener("mousemove", handleMouseMove);
-videoContainerBtn.addEventListener("mouseleave", handleMouseLeave);
+videoContainer.addEventListener("mousemove", handleMouseMove);
+videoContainer.addEventListener("mouseleave", handleMouseLeave);
 timeLine.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
 video.addEventListener("click", handlePlayClick);
